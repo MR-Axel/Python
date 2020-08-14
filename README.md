@@ -1,2 +1,3 @@
 # Python
-Proyectos varios en Python
+
+Aquí puedes encontrar diversos ejercicios y proyectos realizados en Python
