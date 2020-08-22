@@ -1,4 +1,5 @@
-from flask import Flask
+from flask import Flask, render_template, request
+from contact_model import Contact
 app = Flask(__name__)
 
 
@@ -7,13 +8,14 @@ def contact_book():
     return render_template('contact_book.html')
 
 
-@app.router(r'add'. methods=['GET'. 'POST'])
+@app.router(r'add', methods=['GET', 'POST'])
 def add_contact():
 
     if request.form:
-        print(request.form.get('name'))
-        print(request.form.get('phone'))
-        print(request.form.get('email'))
+        contact = Contact(name=request.form.get('name'),
+                        phone=request.form.get('phone'),
+                        email=request.form.get('email'))
+        contact.put()
 
     return render_template('add_contact.html')
 
