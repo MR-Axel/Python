@@ -58,3 +58,26 @@ class FormatoTablaHTML(FormatoTabla):
         for data in data_fila:
             print(f'<th>{data}</th>', end='')
         print('</tr>')
+
+
+def crear_formateador(fmt):
+    ''''
+    Creo formato de salida segun indique el usuario
+    '''
+    if fmt == 'txt':
+        return FormatoTablaTXT() # Formato TXT
+    elif fmt == 'csv':
+        return FormatoTablaCSV() # Formato CSV
+    elif fmt == 'html':
+        return FormatoTablaHTML() # Formato HTML
+    else:
+        raise RuntimeError(f'Unknown format {fmt}')
+
+
+def imprimir_tabla(data, columnas, formato):
+    formato.encabezado(columnas)
+    for row in data:
+        formato.fila(getattr(row, columnas))
+
+
+

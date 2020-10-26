@@ -13,7 +13,6 @@ def leer_valores (filename):
     Arma una lista de productos a partir de filename
     Pera,1.22,10  --> nombre, precio, volumen
     '''
-
     prods=[]
     with open (filename, 'r') as f:
         for line in f:
@@ -24,13 +23,13 @@ def leer_valores (filename):
             prods.append([nombre,precio,volumen])
     return prods
 
+
 def escribir_log(filename, prod):
     '''
     Escribe items de prod al azar con valores cambiados
     en filename 1 vez por segundo
     '''
     f= open(filename,'w')
-
     while True:
         p =random.choice(prod)
         nombre = p[0]
@@ -43,6 +42,7 @@ def escribir_log(filename, prod):
         f.flush()
         time.sleep(1)
         continue
+
 
 productos = leer_valores('Data/mcentral.csv')
 escribir_log('Data/mercadolog.csv', productos)

@@ -5,11 +5,28 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-def datasets (df_parques, df_veredas, tipos, cols):
-    df_tipos_parques = df_parques[df_parques[cols[2]] == tipos[0]][cols[0:3]]
-    df_tipos_veredas = df_veredas[df_veredas[cols[5]] == tipos[1]][cols[3:]]
+def plot_dataset(dataset, variables):
+    '''
+    Plots de dataset generado
+    '''
+    dataset.boxplot(variables[0],by = 'ambiente')
+    dataset.boxplot(variables[1],by = 'ambiente')
+    plt.show()
 
-    print(df_tipos_parques, '\n', df_tipos_veredas)
+
+def datasets (df_parques, df_veredas, tipos, cols):
+    df_tipas_parques = df_parques[df_parques[cols[2]] == tipos[0]][cols[0:3]].copy()
+    df_tipas_parques = df_tipas_parques.rename(columns={cols[0]: 'altura', cols[1]: 'diametro', cols[2]: 'nombre'})
+    df_tipas_parques['ambiente'] = 'parque'
+
+    df_tipas_veredas = df_veredas[df_veredas[cols[5]] == tipos[1]][cols[3:]].copy()
+    df_tipas_veredas = df_tipas_veredas.rename(columns={cols[3]: 'altura', cols[4]: 'diametro', cols[5]: 'nombre'})
+    df_tipas_veredas['ambiente'] = 'vereda'
+
+    df_tipas = pd.concat([df_tipas_veredas, df_tipas_parques])
+    print(df_tipas)
+
+    return df_tipas
 
 
 def main (veredas, parques):

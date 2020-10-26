@@ -2,11 +2,14 @@
 #Axel Rosso
 
 import csv
+import gzip
 
 def parse_csv(lines, select = None, types = None, has_headers = True, silence_errors = False):
     '''
     Parsea un archivo CSV en una lista de registros con conversión de tipos.
     '''
+
+    #! Busco los headers de la selección
     if select and not has_headers:
         raise RuntimeError('para seleccionar columnas, el archivo tiene que tener encabezado')
 
@@ -19,6 +22,8 @@ def parse_csv(lines, select = None, types = None, has_headers = True, silence_er
     if select:
         indices = [ headers.index(col) for col in select ]
         headers = select
+    else:
+        indices = []
 
     registros = []
     for i, row in enumerate(rows, 1):
@@ -47,6 +52,9 @@ def parse_csv(lines, select = None, types = None, has_headers = True, silence_er
         registros.append(registro)
 
     return registros
+
+with gzip.open('Data/camion.csv.gz', 'rt') as file:
+    camion = parse_csv(file, types = [str,int,float], silence_errors = True)
 
 # camion = parse_csv('Data/camion.csv', select=['nombre','cajones'], types=[str, int, float])
 # precios = parse_csv('Data/precios.csv', types=[str, float], has_headers=False)

@@ -1,18 +1,16 @@
 # informe.py
 # Axel Rosso
 
-import fileparse
-#import lote
+from fileparse import parse_csv
+import sys
+import gzip
 
 
 def leer_camion(nom_archivo):
-    '''
-    Lee un archivo de lotes en un camión 
-    y lo devuelve como lista de diccionarios con claves
-    nombre, cajones, precio.
-    '''
-    with open(nom_archivo) as lines:
-        return fileparse.parse_csv(lines, select=['nombre','cajones','precio'], types=[str,int,float])
+    with gzip.open(nom_archivo, 'rt') as file:
+        camion = parse_csv(file, types=[str,int,float])
+        # Retorno con resultado
+        return (camion)
 
 
 def leer_precios(nom_archivo):
@@ -22,7 +20,7 @@ def leer_precios(nom_archivo):
     con claves nombres y con sus precios como valores
     '''
     with open(nom_archivo) as lines:
-        return dict(fileparse.parse_csv(lines, types = [str,float], has_headers = False))
+        return dict(parse_csv(lines, types = [str,float], has_headers = False))
 
 
 def hacer_informe(camion, precios):
@@ -73,5 +71,4 @@ def main(args):
 
 
 if __name__ == '__main__':
-    import sys
     main(sys.argv)

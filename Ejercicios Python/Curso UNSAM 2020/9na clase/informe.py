@@ -5,6 +5,7 @@ import fileparse
 import formato_tabla
 from lote import Lote
 from camion import Camion
+import sys
 
 def leer_camion(filename):
     '''
@@ -70,14 +71,7 @@ def informe_camion(archivo_camion, archivo_precios, fmt = 'txt'):
     data_informe = hacer_informe(camion, precios)
 
     # Elige formato
-    if fmt == 'txt':
-        formateador = formato_tabla.FormatoTablaTXT()
-    elif fmt == 'csv':
-        formateador = formato_tabla.FormatoTablaCSV()
-    elif fmt == 'html':
-        formateador = formato_tabla.FormatoTablaHTML()
-    else:
-        raise RuntimeError(f'Unknown format {fmt}')
+    formateador = formato_tabla.crear_formateador(fmt)
     imprimir_informe(data_informe, formateador)
 
 
@@ -90,5 +84,4 @@ def main(args):
         informe_camion(args[1], args[2])
 
 if __name__ == '__main__':
-    import sys
     main(sys.argv)
